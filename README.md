@@ -16,8 +16,8 @@ python train.py
 #### 2. in cifar100_attention
 python train.py
 #### 3. in CUB_finetune
-Run checkpoint_to_npy.py to store the model of CIFAR100 dataset in .npy format.
-Run dataset_to_tfrecords.py to get train.tfrecords and test.tfrecords of CUB-200-2011. Source data can be downloaded from CUB official website.
+Run checkpoint_to_npy.py to store the model of CIFAR100 dataset in .npy format.</br>
+Run dataset_to_tfrecords.py to get train.tfrecords and test.tfrecords of CUB-200-2011. Source data can be downloaded from CUB official website.</br>
 Run python main.py
 
 ## results
