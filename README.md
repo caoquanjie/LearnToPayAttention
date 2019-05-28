@@ -1,7 +1,7 @@
 # LearnToPayAttention
 ## a tensorflow implementation of ICLR 2018 paper Learn To Pay Attention
 
-I implemented one versions: VGG-att-concat-dp, and I trained the model on CIFAR-10, CIFAR-100 DATASET.
+I implemented only one version: VGG-att-concat-dp, and I trained the model on CIFAR-10, CIFAR-100 DATASET.
 Finally, we use the pretrained CIFAR-100 model initialise the weights in CUB finetune.
 
 ### requirements
