@@ -24,3 +24,6 @@ after 200000 steps, the accuracy with VGG-att2-concat-dp is reached 77.64% in CI
 after 100000 steps, the finetune accuracy with VGG-att2-concat-dp is reached 73.25% in CUB-200-2011.</br>
  
 ### Attention map visualization (on test data of CIFAR-10)
+
+![image](https://github.com/caoquanjie/LearnToPayAttention/images/fig.jpg)
+ 
