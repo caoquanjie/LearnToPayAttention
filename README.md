@@ -16,16 +16,16 @@ python train.py
 #### 2. in cifar100_attention
 python train.py
 #### 3. in CUB_finetune
-Run checkpoint_to_npy.py to store the model of CIFAR100 dataset in .npy format.</br>
-Run dataset_to_tfrecords.py to get train.tfrecords and test.tfrecords of CUB-200-2011. Source data can be downloaded from CUB official website.</br>
+Run checkpoint_to_npy.py to store the model of CIFAR100 dataset in *.npy* format.</br>
+Run dataset_to_tfrecords.py to get `*train.tfrecords*` and `*test.tfrecords*` of CUB-200-2011. Source data can be downloaded from CUB official website.</br>
 Run python main.py
 
 ## results
-after 100000 steps, the accuracy with VGG-att3-concat-dp is reached 94.79% in CIFAR10 dataset.</br>
-after 200000 steps, the accuracy with VGG-att3-concat-dp is reached 77.64% in CIFAR100 dataset.</br> 
-after 100000 steps, the finetune accuracy with VGG-att3-concat-dp is reached 73.25% in CUB-200-2011.</br>
+after 100000 steps, the accuracy with VGG-att3-concat-dp is reached `*94.79%*` in CIFAR10 dataset.</br>
+after 200000 steps, the accuracy with VGG-att3-concat-dp is reached `*77.64%`* in CIFAR100 dataset.</br> 
+after 100000 steps, the finetune accuracy with VGG-att3-concat-dp is reached `*73.25%*` in CUB-200-2011.</br>
  
 ### Attention map visualization (on test data of CIFAR-10)
 
-![image](https://github.com/caoquanjie/LearnToPayAttention/tree/master/images/fig.jpg)
+![](https://github.com/caoquanjie/LearnToPayAttention/tree/master/images/fig.jpg)
  
