@@ -11,16 +11,16 @@ numpy 1.12.0 </br>
 skimage
 
 ### training 
-#### 1. in cifar10_att
+#### 1. in cifar10_attention
 python train.py
-####2. in cifar100_att
+#### 2. in cifar100_attention
 python train.py
-####3. in CUB_finetune
+#### 3. in CUB_finetune
 python main.py
 
 ## results
-after 100000 steps, the accuracy with VGG-att2-concat-dp is reached 94.79% in CIFAR10 dataset 
-after 200000 steps, the accuracy with VGG-att2-concat-dp is reached 77.64% in CIFAR100 dataset 
-after 100000 steps, the finetune accuracy with VGG-att2-concat-dp is reached 73.25% in CUB-200-2011
+after 100000 steps, the accuracy with VGG-att2-concat-dp is reached 94.79% in CIFAR10 dataset.</br>
+after 200000 steps, the accuracy with VGG-att2-concat-dp is reached 77.64% in CIFAR100 dataset.</br> 
+after 100000 steps, the finetune accuracy with VGG-att2-concat-dp is reached 73.25% in CUB-200-2011.</br>
  
 ### Attention map visualization (on test data of CIFAR-10)
