@@ -27,5 +27,5 @@ after 100000 steps, the finetune accuracy with VGG-att3-concat-dp is reached `73
  
 ### Attention map visualization (on test data of CIFAR-10)
 
-![](https://github.com/caoquanjie/LearnToPayAttention/tree/master/images/fig.jpg)
+![](https://github.com/caoquanjie/LearnToPayAttention/raw/master/images/fig.jpg)
  
