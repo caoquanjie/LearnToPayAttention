@@ -7,33 +7,28 @@ import matplotlib.pyplot as plt
 from tensorflow.core.protobuf import saver_pb2
 
 
-FLAGS = tf.app.flags.FLAGS
-tf.app.flags.DEFINE_integer('seed', 2, "initial random seed")
-
-
-
-#hyp
-batch_size = 32
-total_step = 100000
-num_classes = 200
-num_channels = 3
-learning_rate_start = 1.6
-learning_rate_per_step = 6000
-learning_rate_decay = 0.5
-save_model_per_step = 6000
-save_dir = 'model/'
-
-
+flags = tf.app.flags
+flags.DEFINE_integer("batch_size", 32, "batch size for training the model")
+flags.DEFINE_float("learning_rate_start", 1.6, "Learning rate for training the model")
+flags.DEFINE_integer("learning_rate_per_epoch", 6000, "learning rate decay every epoch")
+flags.DEFINE_float("learning_rate_decay", 0.5, "learning rate decay ratio every epoch")
+flags.DEFINE_integer("total_step", 100000, "total step to train the model")
+flags.DEFINE_string("checkpoint_dir", 'models/','path to save model parameters')
+flags.DEFINE_integer('save_model_per_step',6000,'save model parameters every epoch')
+flags.DEFINE_integer('num_channels',3,'the original image number channels')
+flags.DEFINE_integer('num_classes',200,'the CUB categories')
+flags.DEFINE_string('result_log','cub_att.log','print exp results to log file')
+flags.DEFINE_integer('seed', 2, "initial random seed")
 
 
 # log info
 def set_log_info():
-    logger = logging.getLogger('att')
+    logger = logging.getLogger('Vgg')
     logger.setLevel(logging.INFO)
     # True to log file False to print
     logging_file = True
     if logging_file == True:
-        hdlr = logging.FileHandler('att.log')
+        hdlr = logging.FileHandler(FLAGS.result_log)
     else:
         hdlr = logging.StreamHandler()
     formatter = logging.Formatter('%(asctime)s %(message)s')
@@ -125,10 +120,10 @@ def Vgg(rgb,y,phase):
 
     ga_total = tf.concat([ga_1,ga_2,ga_3],axis = 1)
 
-    logit = fc_layer(ga_total, "cls", w_shape=[ga_total.shape[1], num_classes], b_shape=[num_classes])
+    logit = fc_layer(ga_total, "cls", w_shape=[ga_total.shape[1], FLAGS.num_classes], b_shape=[FLAGS.num_classes])
 
     softmax = tf.nn.softmax(logit, name='prob')
-    y_oh = tf.one_hot(y, depth=num_classes)
+    y_oh = tf.one_hot(y, depth=FLAGS.num_classes)
     lossXent = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y_oh, logits=logit))
     correct_prediction = tf.equal(tf.cast(tf.argmax(softmax, 1), tf.int64),y)
     #correct_prediction = tf.nn.in_top_k(logit, y, 1)
@@ -144,10 +139,10 @@ def Vgg(rgb,y,phase):
 
     # train_op
     learning_rate = tf.train.exponential_decay(
-        learning_rate_start,
+        FLAGS.learning_rate_start,
         global_step,
-        learning_rate_per_step,
-        learning_rate_decay,
+        FLAGS.learning_rate_per_epoch,
+        FLAGS.learning_rate_decay,
         staircase=True)
     learning_rate = tf.maximum(learning_rate, 1e-4)
 
@@ -174,7 +169,7 @@ def Vgg(rgb,y,phase):
 
 #save and restore
 def save_checkpoint(sess,step,saver):
-    checkpoint_dir = save_dir
+    checkpoint_dir = FLAGS.checkpoint_dir
     if not os.path.exists(checkpoint_dir):
         os.mkdir(checkpoint_dir)
     saver.save(sess=sess,
@@ -183,7 +178,7 @@ def save_checkpoint(sess,step,saver):
     print('step:%d | save model success'%step)
 
 def load_checkpoint(sess,saver):
-    checkpoint_dir = save_dir
+    checkpoint_dir = FLAGS.checkpoint_dir
     checkpoints = tf.train.get_checkpoint_state(checkpoint_dir)
     if checkpoints and checkpoints.model_checkpoint_path:
         #checkpoints_name = os.path.basename(checkpoints.model_checkpoint_path)
@@ -199,9 +194,9 @@ def load_checkpoint(sess,saver):
 
 
 
-train_images, train_labels = input('train.tfrecords', batchsize=batch_size, isShuffel=True,
+train_images, train_labels = input('train.tfrecords', batchsize=FLAGS.batch_size, isShuffel=True,
                                    flag=True)
-test_images, test_labels = input('test.tfrecords', batchsize=batch_size, isShuffel=True,
+test_images, test_labels = input('test.tfrecords', batchsize=FLAGS.batch_size, isShuffel=True,
                                  flag=False)
 
 
@@ -223,7 +218,7 @@ with tf.Session() as sess:
     np.random.seed(seed=FLAGS.seed)
     tf.set_random_seed(np.random.randint(1234))
 
-    for i in range(total_step):
+    for i in range(FLAGS.total_step):
 
         train_feed = {phase: True, kp_07: 0.7, kp_06: 0.6, kp_05: 0.5}
 
@@ -268,14 +263,14 @@ with tf.Session() as sess:
                     os.mkdir('train_imgs_1212')
                 plt.savefig('train_imgs_1212/train_step%d.png'%i)
 
-        if i and i % save_model_per_step == 0:
+        if i and i % FLAGS.save_model_per_step == 0:
             save_checkpoint(sess,result[-2],saver)
 
 
         # eval result
 
         if i and i % 1000 == 0:
-            eval_num = 10000 // batch_size
+            eval_num = 10000 // FLAGS.batch_size
             total_accuracy = 0
             test_feed = {phase: False, kp_07: 1.0, kp_06: 1.0, kp_05: 1.0}
 

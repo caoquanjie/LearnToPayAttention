@@ -11,9 +11,14 @@ import skimage.transform
 import skimage.io
 
 
-FLAGS = tf.app.flags.FLAGS
-tf.app.flags.DEFINE_integer('seed', 2, "initial random seed")
-batch_size = 64
+flags = tf.app.flags
+flags.DEFINE_integer("batch_size", 64, "batch size for training the model")
+flags.DEFINE_integer("total_step", 200000, "total step to train the model")
+flags.DEFINE_integer('seed', 2, "initial random seed")
+flags.DEFINE_string('result_log','att.log','print exp results to log file')
+
+FLAGS = flags.FLAGS
+
 phase = tf.placeholder(tf.bool)
 
 # log info
@@ -23,7 +28,7 @@ def set_log_info():
     # True to log file False to print
     logging_file = True
     if logging_file == True:
-        hdlr = logging.FileHandler('att.log')
+        hdlr = logging.FileHandler(FLAGS.result_log)
     else:
         hdlr = logging.StreamHandler()
     formatter = logging.Formatter('%(asctime)s %(message)s')
@@ -58,7 +63,7 @@ with tf.Session() as sess:
     np.random.seed(seed=FLAGS.seed)
     tf.set_random_seed(np.random.randint(1234))
 
-    for i in range(100000):
+    for i in range(FLAGS.total_step):
         train_feed = {phase: True, kp_07: 0.7, kp_06: 0.6, kp_05: 0.5,images:train_images,labels:train_labels}
         result = sess.run([image,p1,p2,p3,loss,lossXent,lossL2, train_op, accuracy], feed_dict=train_feed)
 
@@ -99,7 +104,7 @@ with tf.Session() as sess:
         if i and i % 1000 == 0:
             test_images, test_labels = cifar100.next_test_data
             test_feed = {phase: False, kp_07: 1.0, kp_06: 1.0, kp_05: 1.0,images:test_images,labels:test_labels}
-            eval_num = 10000 // batch_size
+            eval_num = 10000 // FLAGS.batch_size
             total_accuracy = 0
             for k in range(eval_num):
                 result = sess.run([image,p1,p2,p3,accuracy], feed_dict=test_feed)

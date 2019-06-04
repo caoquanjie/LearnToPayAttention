@@ -11,14 +11,14 @@ numpy 1.12.0 </br>
 skimage
 
 ### Training 
-#### 1. In cifar10_attention
-Run `python train.py`
+#### 1. In cifar10_attention 
+Run `python train.py --batch_size 64 --total_step 100000 --result_log 'att.log'`
 #### 2. In cifar100_attention
-Run `python train.py`
+Run `python train.py --batch_size 64 --total_step 100000 --result_log 'att.log'`
 #### 3. In CUB_finetune
 Run `python checkpoint_to_npy.py` to store the model of CIFAR100 dataset in *.npy* format.</br>
 Run `python dataset_to_tfrecords.py` to get `train.tfrecords` and `test.tfrecords` of CUB-200-2011. Source data can be downloaded in [Caltech-UCSD Webpage](http://www.vision.caltech.edu/visipedia/CUB-200-2011.html).</br>
-Run `python main.py`
+Run `python main.py --batch_size 32 --learning_rate_start 1.6 --learning_rate_decay 0.5 --total_step 200000 --checkpoing_dir 'models/'
 
 ## Results
 after 100000 steps, the accuracy with VGG-att2-concat-dp is reached `94.79%` in CIFAR10 dataset.</br>
