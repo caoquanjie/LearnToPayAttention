@@ -2,7 +2,7 @@ import tensorflow as tf
 from utils import *
 
 
-def Vgg(rgb,y,phase):
+def Vgg(rgb,y,phase,kp_07,kp_06,kp_05):
     conv1_1 = ConvBNReLU(rgb, w_shape=[3, 3, 3, 64], b_shape=[64, ], axis=-1, phase=phase, name='conv1_1')
     conv1_1 = tf.nn.dropout(conv1_1, keep_prob=kp_07)
     conv1_2 = ConvBNReLU(conv1_1, w_shape=[3, 3, 64, 64], b_shape=[64, ], axis=-1, phase=phase, name='conv1_2')

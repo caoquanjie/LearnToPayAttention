@@ -54,7 +54,7 @@ test_images, test_labels = cifar10_tfrecords.generate_batch([test_image, test_la
 X_input = tf.cond(phase, lambda: train_images, lambda: test_images)
 Y_input = tf.cond(phase, lambda: train_labels, lambda: test_labels)
 
-image,p1,p2,p3,loss,lossXent,lossL2,merged,train_op,accuracy = Vgg(X_input,Y_input,phase=phase)
+image,p1,p2,p3,loss,lossXent,lossL2,merged,train_op,accuracy = Vgg(X_input,Y_input,phase,kp_07,kp_06,kp_05)
 
 
 # start session

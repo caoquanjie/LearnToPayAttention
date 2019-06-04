@@ -49,7 +49,7 @@ kp_05 = tf.placeholder(tf.float32)
 # cifar100 data load
 cifar100 = Cifar100DataReader(r'C:\Users\caodada\Desktop\cifar100_att\cifar-100-python')
 
-image,p1,p2,p3,loss,lossXent,lossL2,merged,train_op,accuracy = Vgg(images,labels,phase=phase)
+image,p1,p2,p3,loss,lossXent,lossL2,merged,train_op,accuracy = Vgg(images,labels,phase,kp_07,kp_06,kp_05)
 
 
 # start session
